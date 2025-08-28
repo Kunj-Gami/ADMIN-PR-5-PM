@@ -1,19 +1,27 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 
 const Login = () => {
   let [email, setEmail] = useState("")
   let [password, setPassword] = useState("")
- 
 
+  let navigate = useNavigate()
   let handleLogIn = (() => {
+
+
     axios.post("http://localhost:8080/login", { email, password })
       .then((res) => {
-        return (
+
+        if (res.data.token) {
           localStorage.setItem("token", res.data.token)
-        )
+          alert(res.data.message)
+          navigate("/home")
+        }
+        else{
+          alert("user not valid !")
+        }
       }
       )
       .catch((err) => alert(err))

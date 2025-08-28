@@ -14,14 +14,14 @@ app.use(cors())
 mongoose.connect("mongodb://localhost:27017/User")
 
 app.post("/signup", async (req, res) => {
-    const { email, password } = req.body
+    const { username , email, password } = req.body
 
     let existingUser = await signupModel.findOne({ email })
     if (existingUser) return res.json({ message: "user is already exist !" })
 
     let hashedPass = await bcrypt.hash(password, 10)
 
-    let newUser = await signupModel.create({ email, password: hashedPass })
+    let newUser = await signupModel.create({ username , email, password: hashedPass })
     res.json({message : "user created !"})
 
 
@@ -38,6 +38,17 @@ app.post("/login", async (req,res)=>{
 
     let token = await jwt.sign({id : existingUser._id},"user@9898",{expiresIn : "1h"})
     res.json({message : "user logged In !",token})
+})
+
+app.get("/home", async (req,res)=>{
+    let token = req.headers.authorization
+
+    let verifiedToken = await jwt.verify(token,"user@9898")
+
+    let user = await signupModel.findById(verifiedToken.id)
+    let username = user.username
+
+    res.json({message : "user verifed !",username})
 })
 
 app.listen(port, () => {
