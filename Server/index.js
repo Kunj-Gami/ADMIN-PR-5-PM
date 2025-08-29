@@ -3,6 +3,7 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const nodemailer = require("nodemailer")
 const app = express()
 const port = 8080
 const path = require("path")
@@ -38,6 +39,34 @@ app.post("/login", async (req,res)=>{
 
     let token = await jwt.sign({id : existingUser._id},"user@9898",{expiresIn : "1h"})
     res.json({message : "user logged In !",token})
+})
+
+let forgotOtpV = {}
+app.post("/forgot", async (req,res)=>{
+    const {forgotEmail} = req.body
+    
+    // let existingUser = await signupModel.findOne({ forgotEmail })
+    // if (!existingUser) return res.json({message : "user not found !"}) 
+    
+    console.log(forgotEmail)
+    let otp = await Math.floor(100000 + Math.random() * 900000)
+    
+    forgotOtpV[forgotEmail] = otp 
+
+    let nodemailerTransport = await nodemailer.createTransport({
+        service : "gmail",
+        auth : {
+            user : "rwr1.kunj.gg@gmail.com",
+            pass : "xwtctxssifksehzf"
+        }
+    })
+    
+    nodemailerTransport.sendMail({
+        from : "rwr1.kunj.gg@gmail.com",
+        to : forgotEmail,
+        subject : "Otp for reset password.",
+        text : `your otp is ${otp}`
+    })
 })
 
 app.get("/home", async (req,res)=>{

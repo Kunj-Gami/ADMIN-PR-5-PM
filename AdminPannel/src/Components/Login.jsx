@@ -32,7 +32,8 @@ const Login = () => {
       <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
       <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} />
       <button onClick={handleLogIn}>Log in</button>
-      <Link to="/signup">Sign up</Link>
+      <Link to="/forgot"><button>Forgot</button></Link>
+      <Link to="/signup"><button>Sign up</button></Link>
     </div>
   )
 }
