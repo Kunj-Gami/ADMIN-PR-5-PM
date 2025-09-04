@@ -17,7 +17,12 @@ const Login = () => {
         if (res.data.token) {
           localStorage.setItem("token", res.data.token)
           alert(res.data.message)
-          navigate("/home")
+          if(res.data.userRole === "admin"){
+            navigate("/admin")
+          }
+          else{
+            navigate("/home")
+          }
         }
         else{
           alert("user not valid !")

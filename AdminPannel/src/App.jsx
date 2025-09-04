@@ -5,6 +5,7 @@ import Signup from './Components/Signup'
 import Home from './Components/Home'
 import Forgot from './Components/Forgot'
 import ResetPass from './Components/ResetPass'
+import Admin from './Components/Admin'
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           <Route path='/resetPass' element={<ResetPass />}></Route>
           <Route path='/signup' element={<Signup />}></Route>
           <Route path='/home' element={<Home />}></Route>
+          <Route path='/admin' element={<Admin />}></Route>
         </Routes>
       </BrowserRouter>
 

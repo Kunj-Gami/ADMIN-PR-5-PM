@@ -31,8 +31,17 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
     const { email, password } = req.body
 
+    let adminEmail = "admin@gmail.com"
+    let adminPassword = "Admin@123"
+
+
     let existingUser = await signupModel.findOne({ email })
     if (!existingUser) return res.json({ message: "user not found !" })
+
+    if(email === adminEmail && password === adminPassword){
+        let admin = await signupModel.findByIdAndUpdate(existingUser.id,{role : "admin"})
+        console.log(admin)
+    }
 
     let hashedPass = await bcrypt.compare(password, existingUser.password)
     if (!hashedPass) return res.json({ message: "password incorrect !" })
