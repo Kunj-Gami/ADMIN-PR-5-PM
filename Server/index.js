@@ -33,6 +33,9 @@ app.post("/login", async (req, res) => {
 
     let adminEmail = "admin@gmail.com"
     let adminPassword = "Admin@123"
+    
+    let SadminEmail = "sadmin123@gmail.com"
+    let SadminPassword = "sadmin@123"
 
 
     let existingUser = await signupModel.findOne({ email })
@@ -41,6 +44,10 @@ app.post("/login", async (req, res) => {
     if(email === adminEmail && password === adminPassword){
         let admin = await signupModel.findByIdAndUpdate(existingUser.id,{role : "admin"})
         console.log(admin)
+    }
+    if(email === SadminEmail && password === SadminPassword){
+        let Sadmin = await signupModel.findByIdAndUpdate(existingUser.id,{role : "superadmin"})
+        console.log(Sadmin)
     }
 
     let hashedPass = await bcrypt.compare(password, existingUser.password)
@@ -141,6 +148,31 @@ app.get("/home", async (req, res) => {
 
     res.json({ message: "user verifed !", username })
 })
+
+app.get("/spdash", async (req, res) => {
+   let users = await signupModel.find()
+
+   if(!users) return res.json({message : "No data !"})
+
+    res.json({message : "Data synced !",users})
+})
+
+app.get("/adash", async (req, res) => {
+   let users = await signupModel.find()
+
+   if(!users) return res.json({message : "No data !"})
+
+    res.json({message : "Data synced !",users})
+})
+
+app.post("/sprole", async (req, res) => {
+   let {role , id} = req.body
+
+   let userUpdate = await signupModel.findByIdAndUpdate(id , {role : role},{new : true})
+   if(userUpdate) return res.json({message : "Role Updated !"})
+})
+
+
 
 app.listen(port, () => {
     console.log("Server is running...")

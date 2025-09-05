@@ -6,6 +6,7 @@ import Home from './Components/Home'
 import Forgot from './Components/Forgot'
 import ResetPass from './Components/ResetPass'
 import Admin from './Components/Admin'
+import SuperAdmin from './Components/SuperAdmin'
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/signup' element={<Signup />}></Route>
           <Route path='/home' element={<Home />}></Route>
           <Route path='/admin' element={<Admin />}></Route>
+          <Route path='/superadmin' element={<SuperAdmin />}></Route>
         </Routes>
       </BrowserRouter>
 

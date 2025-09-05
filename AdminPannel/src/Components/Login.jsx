@@ -20,6 +20,9 @@ const Login = () => {
           if(res.data.userRole === "admin"){
             navigate("/admin")
           }
+          else if(res.data.userRole === "superadmin"){
+            navigate("/superadmin")
+          }
           else{
             navigate("/home")
           }
